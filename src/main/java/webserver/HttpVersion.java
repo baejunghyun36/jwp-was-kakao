@@ -1,19 +1,16 @@
 package webserver;
 
+import java.util.Objects;
+
 public final class HttpVersion {
-    private final String scheme;
-    private final int major;
-    private final int minor;
+    private String scheme;
+    private int major;
+    private int minor;
     private final String raw;
 
     public HttpVersion(String version) {
+        (new HttpVersion.Parser(version)).parse();
         this.raw = version;
-        String[] chunks = version.split("/");
-        validateSchemeChunk(chunks);
-        this.scheme = chunks[0];
-        String[] versions = validateVersionChunks(chunks);
-        major = Integer.parseInt(versions[0]);
-        minor = Integer.parseInt(versions[1]);
     }
 
     private void validateSchemeChunk(String[] chunks) {
@@ -66,5 +63,35 @@ public final class HttpVersion {
 
     public String raw() {
         return this.raw;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HttpVersion that = (HttpVersion) o;
+        return Objects.equals(raw, that.raw);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(raw);
+    }
+
+    private final class Parser {
+        private final String version;
+
+        Parser(String version) {
+            this.version = version;
+        }
+
+        void parse() {
+            String[] chunks = version.split("/");
+            validateSchemeChunk(chunks);
+            HttpVersion.this.scheme = chunks[0];
+            String[] versions = validateVersionChunks(chunks);
+            HttpVersion.this.major = Integer.parseInt(versions[0]);
+            HttpVersion.this.minor = Integer.parseInt(versions[1]);
+        }
     }
 }

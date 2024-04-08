@@ -1,12 +1,21 @@
 package webserver;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 public final class RequestLine {
     private Method method;
     private Uri uri;
     private HttpVersion httpVersion;
 
-    public RequestLine(String requestLine) {
-        (new RequestLine.Parser(requestLine)).parse();
+    public RequestLine(InputStream in) {
+        try {
+            (new Parser(in)).parse();
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Request Line을 파싱할 수 없습니다.");
+        }
     }
 
     public Method method() {
@@ -22,14 +31,14 @@ public final class RequestLine {
     }
 
     private final class Parser {
-        private final String requestLine;
+        private final BufferedReader br;
 
-        Parser(String requestLine) {
-            this.requestLine = requestLine;
+        Parser(InputStream in) {
+            this.br = new BufferedReader(new InputStreamReader(in));
         }
 
-        void parse() {
-            String[] chunks = requestLine.split(" ");
+        void parse() throws IOException {
+            String[] chunks = br.readLine().split(" ");
             validateSchemeChunk(chunks);
             RequestLine.this.method = Method.of(chunks[0]);
             RequestLine.this.uri = new Uri(chunks[1]);

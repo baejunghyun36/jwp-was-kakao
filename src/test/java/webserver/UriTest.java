@@ -15,4 +15,22 @@ public class UriTest {
         assertThat(uri).isNotNull();
         assertThat(uri.params().size()).isEqualTo(3);
     }
+
+    @Test
+    void Uri_구성이_올바르지_않은_경우_RuntimeException이_발생한다() {
+        String path = "abcd,,,,";
+        assertThatThrownBy(() -> new Uri(path)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void Uri_쿼리_파라미터_구분자가_여럿인_경우_RuntimeException이_발생한다() {
+        String path = "/root?param=param?a=b";
+        assertThatThrownBy(() -> new Uri(path)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void Uri_쿼리_파라미터_구성이_올바르지_않은_경우_RuntimeException이_발생한다() {
+        String path = "/root?param=param&";
+        assertThatThrownBy(() -> new Uri(path)).isInstanceOf(IllegalArgumentException.class);
+    }
 }

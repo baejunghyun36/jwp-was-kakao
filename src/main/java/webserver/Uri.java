@@ -8,12 +8,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class Uri {
-    private final String path;
-    private final Map<String, String> params;
+    private static final Pattern PATH_PATTERN = Pattern.compile("^/([a-zA-Z0-9\\-._~%!$&'()*+,;=:@/]*)$");
+    private static final Pattern PARAM_PATTERN = Pattern.compile("^([\\w]+=[\\w]+)(&[\\w]+=[\\w]+)*$");
+    private static final String DEFAULT_PATH = "/";
 
-    public Uri(String path, Map<String, String> params) {
-        this.path = path;
-        this.params = params;
+    private String path;
+    private Map<String, String> params;
+
+    public Uri(String uri) {
+        (new Parser(uri)).parse();
     }
 
     public String path() {

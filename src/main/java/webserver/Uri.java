@@ -2,23 +2,18 @@ package webserver;
 
 import java.util.Map;
 
-public class Uri {
-
-    private String method;
-    private String path;
-    private Map<String, String> params;
-
-    public Uri(){
-
-    }
+public final class Uri {
+    private final Method method;
+    private final String path;
+    private final Map<String, String> params;
 
     public Uri(String method, String path, Map<String, String> params) {
-        this.method = method;
+        this.method = Method.of(method);
         this.path = path;
         this.params = params;
     }
 
-    public String method() {
+    public Method method() {
         return this.method;
     }
 

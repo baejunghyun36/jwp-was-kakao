@@ -9,14 +9,6 @@ import java.util.Objects;
 public final class HttpHeaders {
     private Map<String, String> headers;
 
-//    public HttpHeaders(InputStream in) {
-//        try {
-//            (new Parser(in)).parse();
-//        } catch (IOException e) {
-//            throw new IllegalArgumentException("Http 헤더를 파싱할 수 없습니다.");
-//        }
-//    }
-
     public HttpHeaders(BufferedReader br) {
         try {
             (new Parser(br)).parse();
@@ -31,10 +23,6 @@ public final class HttpHeaders {
 
     private final class Parser {
         private final BufferedReader br;
-
-//        Parser(InputStream in) {
-//            this.br = new BufferedReader(new InputStreamReader(in));
-//        }
 
         Parser(BufferedReader br) {
             this.br = br;

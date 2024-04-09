@@ -1,9 +1,9 @@
 package webserver.common;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("HttpVersion 관련 테스트")
@@ -12,11 +12,11 @@ class HttpVersionTest {
     void HttpVersion_객체를_생성한다() {
         String version = "HTTP/1.1";
         HttpVersion httpVersion = new HttpVersion(version);
-        Assertions.assertThat(httpVersion).isNotNull();
-        Assertions.assertThat(httpVersion.scheme()).isEqualTo("HTTP");
-        Assertions.assertThat(httpVersion.major()).isEqualTo(1);
-        Assertions.assertThat(httpVersion.minor()).isEqualTo(1);
-        Assertions.assertThat(httpVersion.raw()).isEqualTo(version);
+        assertThat(httpVersion).isNotNull();
+        assertThat(httpVersion.scheme()).isEqualTo("HTTP");
+        assertThat(httpVersion.major()).isEqualTo(1);
+        assertThat(httpVersion.minor()).isEqualTo(1);
+        assertThat(httpVersion.raw()).isEqualTo(version);
     }
 
     @Test

@@ -11,6 +11,9 @@ public final class Uri {
     private static final Pattern PATH_PATTERN = Pattern.compile("^/([a-zA-Z0-9\\-._~%!$&'()*+,;=:@/]*)$");
     private static final Pattern PARAM_PATTERN = Pattern.compile("^([\\w]+=[\\w]+)(&[\\w]+=[\\w]+)*$");
     private static final String DEFAULT_PATH = "/";
+    private static final String QUERY_DELIMITER = "\\?";
+    private static final String ENTRY_DELIMITER = "&";
+    private static final String FIELD_DELIMITER = "=";
 
     private String path;
     private Map<String, String> params;
@@ -50,7 +53,7 @@ public final class Uri {
 
         void parse() {
             Uri.this.params = new HashMap<>();
-            String[] chunks = this.uri.split("\\?");
+            String[] chunks = this.uri.split(QUERY_DELIMITER);
             if (chunks[0].isBlank()) {
                 chunks[0] = DEFAULT_PATH;
             }
@@ -81,12 +84,12 @@ public final class Uri {
             if (!matcher.matches()) {
                 throw new IllegalArgumentException("쿼리 파라미터 구성이 올바르지 않습니다.");
             }
-            String[] params = chunks[1].split("&");
+            String[] params = chunks[1].split(ENTRY_DELIMITER);
             Arrays.stream(params).forEach(this::putParam);
         }
 
         private void putParam(String param) {
-            String[] keyValue = param.split("=");
+            String[] keyValue = param.split(FIELD_DELIMITER);
             Uri.this.params.put(keyValue[0], keyValue[1]);
         }
     }

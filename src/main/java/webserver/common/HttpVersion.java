@@ -3,6 +3,9 @@ package webserver.common;
 import java.util.Objects;
 
 public final class HttpVersion {
+    private static final String SCHEME_DELIMITER = "/";
+    private static final String VERSION_DELIMITER = "\\.";
+
     private String scheme;
     private int major;
     private int minor;
@@ -32,7 +35,7 @@ public final class HttpVersion {
 
     private String[] validateVersionChunks(String[] chunks) {
         checkChunkLength(chunks);
-        String[] versions = chunks[1].split("\\.");
+        String[] versions = chunks[1].split(VERSION_DELIMITER);
         checkVersionsLength(versions);
         return versions;
     }
@@ -86,7 +89,7 @@ public final class HttpVersion {
         }
 
         void parse() {
-            String[] chunks = version.split("/");
+            String[] chunks = version.split(SCHEME_DELIMITER);
             validateSchemeChunk(chunks);
             HttpVersion.this.scheme = chunks[0];
             String[] versions = validateVersionChunks(chunks);

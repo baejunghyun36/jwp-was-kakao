@@ -10,9 +10,6 @@ import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
 
 public final class HttpRequest {
-    private static final String CONTENT_TYPE = "Content-Type";
-    private static final String CONTENT_LENGTH = "Content-Length";
-
     private final RequestLine requestLine;
     private final HttpHeaders httpHeaders;
     private final RequestBody requestBody;
@@ -36,11 +33,13 @@ public final class HttpRequest {
     }
 
     private String getContentType(HttpHeaders httpHeaders) {
-        return httpHeaders.get(CONTENT_TYPE).orElseThrow(NoSuchElementException::new);
+        return httpHeaders.get(org.springframework.http.HttpHeaders.CONTENT_TYPE)
+                .orElseThrow(NoSuchElementException::new);
     }
 
     private int getContentLength(HttpHeaders httpHeaders) {
-        return Integer.parseInt(httpHeaders.get(CONTENT_LENGTH).orElseThrow(NoSuchElementException::new));
+        return Integer.parseInt(httpHeaders.get(org.springframework.http.HttpHeaders.CONTENT_LENGTH)
+                .orElseThrow(NoSuchElementException::new));
     }
 
     public RequestLine requestLine() {
@@ -53,5 +52,13 @@ public final class HttpRequest {
 
     public RequestBody requestBody() {
         return this.requestBody;
+    }
+
+    public Method method() {
+        return this.requestLine.method();
+    }
+
+    public String path() {
+        return this.requestLine.uri().path();
     }
 }

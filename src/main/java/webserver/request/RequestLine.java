@@ -7,8 +7,11 @@ import java.io.IOException;
 import java.util.Objects;
 
 public final class RequestLine {
+    private static final String FIELD_DELIMITER = " ";
+    
     private Method method;
     private Uri uri;
+
     private HttpVersion httpVersion;
 
     public RequestLine(BufferedReader br) {
@@ -39,7 +42,7 @@ public final class RequestLine {
         }
 
         void parse() throws IOException {
-            String[] chunks = br.readLine().split(" ");
+            String[] chunks = br.readLine().split(FIELD_DELIMITER);
             validateSchemeChunk(chunks);
             RequestLine.this.method = Method.of(chunks[0]);
             RequestLine.this.uri = new Uri(chunks[1]);

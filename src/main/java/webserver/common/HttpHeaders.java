@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 public final class HttpHeaders {
+    private static final String HEADER_DELIMITER = ": ";
+
     private Map<String, String> headers;
 
     public HttpHeaders(BufferedReader br) {
@@ -39,7 +41,7 @@ public final class HttpHeaders {
         }
 
         private void putHeader(String line) {
-            String[] keyValue = line.split(": ");
+            String[] keyValue = line.split(HEADER_DELIMITER);
             HttpHeaders.this.headers.put(keyValue[0], keyValue[1]);
         }
     }

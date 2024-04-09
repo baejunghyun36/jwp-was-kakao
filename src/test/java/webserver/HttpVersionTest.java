@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("HttpVersion 관련 테스트")
-public class HttpVersionTest {
+class HttpVersionTest {
     @Test
     void HttpVersion_객체를_생성한다() {
         String version = "HTTP/1.1";

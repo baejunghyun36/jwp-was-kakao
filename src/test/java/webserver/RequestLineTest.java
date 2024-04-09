@@ -1,5 +1,6 @@
 package webserver;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -13,7 +14,8 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class RequestLineTest {
+@DisplayName("RequestLine 관련 테스트")
+class RequestLineTest {
     @Test
     void RequestLine_객체의_필수_인자를_받아서_생성한다() {
         String method = "GET";

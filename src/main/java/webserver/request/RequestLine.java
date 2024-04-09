@@ -1,5 +1,7 @@
 package webserver.request;
 
+import webserver.common.HttpVersion;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Objects;

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 public final class HttpHeaders {
     private Map<String, String> headers;
@@ -17,8 +18,8 @@ public final class HttpHeaders {
         }
     }
 
-    public Map<String, String> get() {
-        return headers;
+    public Optional<String> get(String key) {
+        return Optional.ofNullable(headers.get(key));
     }
 
     private final class Parser {

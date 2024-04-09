@@ -28,4 +28,8 @@ public enum Method {
         }
         return optionalMethod.get();
     }
+
+    public boolean isRequestBodyAcceptable() {
+        return this != GET && this != HEAD && this != DELETE;
+    }
 }

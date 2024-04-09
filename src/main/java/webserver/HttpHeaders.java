@@ -2,10 +2,9 @@ package webserver;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public final class HttpHeaders {
     private Map<String, String> headers;
@@ -42,5 +41,18 @@ public final class HttpHeaders {
             String[] keyValue = line.split(": ");
             HttpHeaders.this.headers.put(keyValue[0], keyValue[1]);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HttpHeaders headers1 = (HttpHeaders) o;
+        return Objects.equals(headers, headers1.headers);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(headers);
     }
 }

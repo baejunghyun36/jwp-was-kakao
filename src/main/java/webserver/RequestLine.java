@@ -9,9 +9,16 @@ public final class RequestLine {
     private Uri uri;
     private HttpVersion httpVersion;
 
-    public RequestLine(InputStream in) {
+    //    public RequestLine(InputStream in) {
+//        try {
+//            (new Parser(in)).parse();
+//        } catch (IOException e) {
+//            throw new IllegalArgumentException("Request Line을 파싱할 수 없습니다.");
+//        }
+//    }
+    public RequestLine(BufferedReader br) {
         try {
-            (new Parser(in)).parse();
+            (new Parser(br)).parse();
         } catch (IOException e) {
             throw new IllegalArgumentException("Request Line을 파싱할 수 없습니다.");
         }
@@ -32,8 +39,12 @@ public final class RequestLine {
     private final class Parser {
         private final BufferedReader br;
 
-        Parser(InputStream in) {
-            this.br = new BufferedReader(new InputStreamReader(in));
+//        Parser(InputStream in) {
+//            this.br = new BufferedReader(new InputStreamReader(in));
+//        }
+
+        Parser(BufferedReader br) {
+            this.br = br;
         }
 
         void parse() throws IOException {

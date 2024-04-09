@@ -29,6 +29,6 @@ class HttpRequestTest {
         BufferedReader br = new BufferedReader(new InputStreamReader(in2));
         assertThat(httpRequest.requestLine()).isEqualTo(new RequestLine(br));
         assertThat(httpRequest.headers()).isEqualTo(new HttpHeaders(br));
-//        assertThat(httpRequest.requestBody()).isEqualTo("");
+        assertThat(httpRequest.requestBody()).isNotNull();
     }
 }

@@ -2,8 +2,8 @@ package webserver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpMethod;
 import webserver.controller.RequestMapper;
+import webserver.request.Method;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -33,9 +33,9 @@ public class WebApplicationServer {
     }
 
     private static void registerController() {
-        RequestMapper.register(HttpMethod.GET.name(), "/user/create", (httpRequest, response) -> {
+        RequestMapper.register(Method.GET.name(), "/user/create", (httpRequest, response) -> {
         });
-        RequestMapper.register(HttpMethod.POST.name(), "/user/create", (httpRequest, response) -> {
+        RequestMapper.register(Method.GET.name(), "/user/create", (httpRequest, response) -> {
         });
     }
 }

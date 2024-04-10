@@ -1,6 +1,7 @@
 package webserver.response;
 
 import webserver.common.HttpVersion;
+import webserver.enums.StatusCode;
 
 import java.util.Objects;
 
@@ -9,10 +10,10 @@ public final class StatusLine {
     private final int statusCode;
     private final String reasonPhrase;
 
-    public StatusLine(String httpVersion, int statusCode, String reasonPhrase) {
+    public StatusLine(String httpVersion, StatusCode statusCode) {
         this.httpVersion = new HttpVersion(httpVersion);
-        this.statusCode = statusCode;
-        this.reasonPhrase = reasonPhrase;
+        this.statusCode = statusCode.value();
+        this.reasonPhrase = statusCode.reasonPhrase();
     }
 
     public String httpVersion() {

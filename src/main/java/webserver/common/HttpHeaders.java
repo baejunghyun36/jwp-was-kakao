@@ -32,7 +32,7 @@ public final class HttpHeaders {
         return get(org.springframework.http.HttpHeaders.CONTENT_LENGTH);
     }
 
-    private Optional<String> get(String key) {
+    public Optional<String> get(String key) {
         return Optional.ofNullable(headers.get(key));
     }
 

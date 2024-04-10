@@ -34,6 +34,6 @@
 * [X] RequestHandler에서 서빙할 파일을 찾아 바이트 배열을 HttpResponse로 넘긴다.
 * [X] Redirect 및 Controller 구현한다.
 * [X] Content-Type 필터링을 구현한다.
-* [TODO] StatusLine 객체를 만든다.
+* [X] StatusLine 객체를 만든다.
 * [TODO] ResponseBody 객체를 만든다.
-* [TODO] StatusLine과 HttpHeaders와 ResponseBody를 가진 HttpResponse를 만든다.
+* [X] StatusLine과 HttpHeaders와 ResponseBody를 가진 HttpResponse를 만든다.

@@ -16,7 +16,7 @@ public final class HttpVersion {
     private final String raw;
 
     public HttpVersion(String version) {
-        (new HttpVersion.Parser(version)).parse();
+        (new Parser(version)).parse();
         this.raw = version;
     }
 

@@ -1,7 +1,9 @@
 package webserver.common;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -21,6 +23,10 @@ public final class HttpHeaders {
         } catch (IOException e) {
             throw new IllegalArgumentException("Http 헤더를 파싱할 수 없습니다.");
         }
+    }
+
+    public HttpHeaders(String headers) {
+        this(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(headers.getBytes()))));
     }
 
     public Optional<String> accept() {

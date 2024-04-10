@@ -7,9 +7,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.NoSuchElementException;
 
 public final class HttpRequest {
+    private static final String ZERO_STRING = "";
+    private static final String ZERO_INTEGER = "0";
+
     private final RequestLine requestLine;
     private final HttpHeaders httpHeaders;
     private final RequestBody requestBody;
@@ -23,8 +25,8 @@ public final class HttpRequest {
             return;
         }
         this.requestBody = new RequestBody(ParsingStrategyFactory.create(
-                getContentType(httpHeaders),
-                IOUtils.readData(br, getContentLength(httpHeaders))));
+                contentType(),
+                IOUtils.readData(br, contentLength())));
     }
 
     private boolean isRequestBodyAcceptable() {
@@ -32,14 +34,16 @@ public final class HttpRequest {
         return method.isRequestBodyAcceptable();
     }
 
-    private String getContentType(HttpHeaders httpHeaders) {
-        return httpHeaders.get(org.springframework.http.HttpHeaders.CONTENT_TYPE)
-                .orElseThrow(NoSuchElementException::new);
+    public String accept() {
+        return this.httpHeaders.accept().orElse(ZERO_STRING);
     }
 
-    private int getContentLength(HttpHeaders httpHeaders) {
-        return Integer.parseInt(httpHeaders.get(org.springframework.http.HttpHeaders.CONTENT_LENGTH)
-                .orElseThrow(NoSuchElementException::new));
+    public String contentType() {
+        return this.httpHeaders.contentType().orElse(ZERO_STRING);
+    }
+
+    public int contentLength() {
+        return Integer.parseInt(this.httpHeaders.contentLength().orElse(ZERO_INTEGER));
     }
 
     public RequestLine requestLine() {

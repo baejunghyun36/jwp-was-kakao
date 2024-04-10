@@ -64,12 +64,13 @@ public final class RequestMapper {
     }
 
     private static String getContentType(HttpRequest httpRequest) {
-        if (httpRequest.headers().accept().isEmpty()) {
-            return httpRequest.headers().contentType().orElse(MediaType.TEXT_HTML_VALUE);
-        }
-        String accept = httpRequest.headers().accept().orElse(MediaType.TEXT_HTML_VALUE);
+        String accept = httpRequest.accept();
+        String contentType = httpRequest.contentType();
         if (accept.contains(CSS_CONTENT_TYPE)) {
             return CSS_CONTENT_TYPE;
+        }
+        if (!contentType.isBlank()) {
+            return contentType;
         }
         return MediaType.TEXT_HTML_VALUE;
     }

@@ -25,6 +25,9 @@ public final class HttpHeaders {
     }
 
     private final class Parser {
+        private static final int KEY_INDEX = 0;
+        private static final int VALUE_INDEX = 1;
+
         private final BufferedReader br;
 
         Parser(BufferedReader br) {
@@ -42,7 +45,7 @@ public final class HttpHeaders {
 
         private void putHeader(String line) {
             String[] keyValue = line.split(HEADER_DELIMITER);
-            HttpHeaders.this.headers.put(keyValue[0], keyValue[1]);
+            HttpHeaders.this.headers.put(keyValue[KEY_INDEX], keyValue[VALUE_INDEX]);
         }
     }
 

@@ -8,7 +8,10 @@ import java.util.Objects;
 
 public final class RequestLine {
     private static final String FIELD_DELIMITER = " ";
-    
+    private static final int METHOD_INDEX = 0;
+    private static final int URI_INDEX = 1;
+    private static final int VERSION_INDEX = 2;
+
     private Method method;
     private Uri uri;
 
@@ -44,9 +47,9 @@ public final class RequestLine {
         void parse() throws IOException {
             String[] chunks = br.readLine().split(FIELD_DELIMITER);
             validateSchemeChunk(chunks);
-            RequestLine.this.method = Method.of(chunks[0]);
-            RequestLine.this.uri = new Uri(chunks[1]);
-            RequestLine.this.httpVersion = new HttpVersion(chunks[2]);
+            RequestLine.this.method = Method.of(chunks[METHOD_INDEX]);
+            RequestLine.this.uri = new Uri(chunks[URI_INDEX]);
+            RequestLine.this.httpVersion = new HttpVersion(chunks[VERSION_INDEX]);
         }
 
         void validateSchemeChunk(String[] chunks) {

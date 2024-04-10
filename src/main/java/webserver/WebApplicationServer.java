@@ -10,12 +10,13 @@ import java.net.Socket;
 
 public class WebApplicationServer {
     private static final Logger logger = LoggerFactory.getLogger(WebApplicationServer.class);
+    private static final int PORT_INDEX = 0;
     private static final int DEFAULT_PORT = 8080;
 
     public static void main(String[] args) throws Exception {
         int port = DEFAULT_PORT;
-        if (args != null && args.length != 0) {
-            port = Integer.parseInt(args[0]);
+        if (args != null && args.length != PORT_INDEX) {
+            port = Integer.parseInt(args[PORT_INDEX]);
         }
         try (ServerSocket listenSocket = new ServerSocket(port)) {
             logger.info("Web Application Server started {} port.", port);
@@ -27,7 +28,7 @@ public class WebApplicationServer {
     private static void registerController() {
         RequestMapper.register(Method.GET.name(), "/user/create", (httpRequest, response) -> {
         });
-        RequestMapper.register(Method.GET.name(), "/user/create", (httpRequest, response) -> {
+        RequestMapper.register(Method.POST.name(), "/user/create", (httpRequest, response) -> {
         });
     }
 

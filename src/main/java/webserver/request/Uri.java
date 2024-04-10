@@ -44,6 +44,11 @@ public final class Uri {
     }
 
     private final class Parser {
+        private static final int PATH_INDEX = 0;
+        private static final int PARAM_INDEX = 1;
+        private static final int KEY_INDEX = 0;
+        private static final int VALUE_INDEX = 1;
+        
         private final String uri;
 
         Parser(String uri) {
@@ -54,10 +59,10 @@ public final class Uri {
         void parse() {
             Uri.this.params = new HashMap<>();
             String[] chunks = this.uri.split(QUERY_DELIMITER);
-            if (chunks[0].isBlank()) {
-                chunks[0] = DEFAULT_PATH;
+            if (chunks[PATH_INDEX].isBlank()) {
+                chunks[PATH_INDEX] = DEFAULT_PATH;
             }
-            validateAndExtractPath(chunks[0]);
+            validateAndExtractPath(chunks[PATH_INDEX]);
             validateAndExtractParams(chunks);
         }
 
@@ -80,17 +85,17 @@ public final class Uri {
         }
 
         private void extractParams(String[] chunks) {
-            Matcher matcher = Uri.PARAM_PATTERN.matcher(chunks[1]);
+            Matcher matcher = Uri.PARAM_PATTERN.matcher(chunks[PARAM_INDEX]);
             if (!matcher.matches()) {
                 throw new IllegalArgumentException("쿼리 파라미터 구성이 올바르지 않습니다.");
             }
-            String[] params = chunks[1].split(ENTRY_DELIMITER);
+            String[] params = chunks[PARAM_INDEX].split(ENTRY_DELIMITER);
             Arrays.stream(params).forEach(this::putParam);
         }
 
         private void putParam(String param) {
             String[] keyValue = param.split(FIELD_DELIMITER);
-            Uri.this.params.put(keyValue[0], keyValue[1]);
+            Uri.this.params.put(keyValue[KEY_INDEX], keyValue[VALUE_INDEX]);
         }
     }
 }

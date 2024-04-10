@@ -5,6 +5,10 @@ import java.util.Objects;
 public final class HttpVersion {
     private static final String SCHEME_DELIMITER = "/";
     private static final String VERSION_DELIMITER = "\\.";
+    private static final int SCHEME_INDEX = 0;
+    private static final int VERSION_INDEX = 1;
+    private static final int MAJOR_INDEX = 0;
+    private static final int MINOR_INDEX = 1;
 
     private String scheme;
     private int major;
@@ -18,7 +22,7 @@ public final class HttpVersion {
 
     private void validateSchemeChunk(String[] chunks) {
         checkExistence(chunks);
-        checkCaseSensitive(chunks[0]);
+        checkCaseSensitive(chunks[SCHEME_INDEX]);
     }
 
     private void checkExistence(String[] chunks) {
@@ -35,7 +39,7 @@ public final class HttpVersion {
 
     private String[] validateVersionChunks(String[] chunks) {
         checkChunkLength(chunks);
-        String[] versions = chunks[1].split(VERSION_DELIMITER);
+        String[] versions = chunks[VERSION_INDEX].split(VERSION_DELIMITER);
         checkVersionsLength(versions);
         return versions;
     }
@@ -91,10 +95,10 @@ public final class HttpVersion {
         void parse() {
             String[] chunks = version.split(SCHEME_DELIMITER);
             validateSchemeChunk(chunks);
-            HttpVersion.this.scheme = chunks[0];
+            HttpVersion.this.scheme = chunks[SCHEME_INDEX];
             String[] versions = validateVersionChunks(chunks);
-            HttpVersion.this.major = Integer.parseInt(versions[0]);
-            HttpVersion.this.minor = Integer.parseInt(versions[1]);
+            HttpVersion.this.major = Integer.parseInt(versions[MAJOR_INDEX]);
+            HttpVersion.this.minor = Integer.parseInt(versions[MINOR_INDEX]);
         }
     }
 }

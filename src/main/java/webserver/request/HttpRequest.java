@@ -17,12 +17,18 @@ public final class HttpRequest {
     private final HttpHeaders httpHeaders;
     private final RequestBody requestBody;
 
+    public HttpRequest() {
+        this.requestLine = null;
+        this.httpHeaders = null;
+        this.requestBody = null;
+    }
+
     public HttpRequest(InputStream in) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(in));
         this.requestLine = new RequestLine(br);
         this.httpHeaders = new HttpHeaders(br);
         if (!isRequestBodyAcceptable()) {
-            requestBody = new RequestBody();
+            this.requestBody = new RequestBody();
             return;
         }
         this.requestBody = new RequestBody(RequestBodyParsingStrategyFactory.create(

@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public final class HttpHeaders {
     public static final String ACCEPT = "Accept";
+    public static final String LOCATION = "Location";
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String CONTENT_LENGTH = "Content-Length";
     private static final String HEADER_DELIMITER = ": ";
@@ -43,6 +44,10 @@ public final class HttpHeaders {
 
     public Optional<String> get(String key) {
         return Optional.ofNullable(headers.get(key));
+    }
+
+    public void put(String key, String value) {
+        this.headers.putIfAbsent(key, value);
     }
 
     public Map<String, String> all() {

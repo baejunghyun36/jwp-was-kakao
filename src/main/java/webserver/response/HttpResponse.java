@@ -1,22 +1,54 @@
 package webserver.response;
 
 import webserver.common.HttpHeaders;
+import webserver.common.HttpVersion;
+import webserver.enums.MediaType;
 import webserver.enums.StatusCode;
+import webserver.request.HttpRequest;
 
 public final class HttpResponse {
+    public static final String DEFAULT_ENTRY = "index.html";
+    private static final String EMPTY = "";
+    private static final String NOT_FOUND_MESSAGE = "NOT FOUND";
+
+    private final HttpRequest httpRequest;
     private StatusLine statusLine;
     private HttpHeaders headers;
     private ResponseBody responseBody;
 
-    public void setStatusLine(String httpVersion, StatusCode statusCode) {
+    public HttpResponse(HttpRequest httpRequest) {
+        this.httpRequest = httpRequest;
+        this.headers = new HttpHeaders(EMPTY);
+    }
+
+    public void setStatusOK(byte[] contents, String contentType) {
+        setStatusLine(HttpVersion.HTTP_1_1, StatusCode.OK);
+        setHeader(HttpHeaders.CONTENT_TYPE, contentType);
+        setHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(contents.length));
+        setResponseBody(contents);
+    }
+
+    public void setNotFound() {
+        setStatusLine(HttpVersion.HTTP_1_1, StatusCode.NOT_FOUND);
+        setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN.value());
+        setHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(NOT_FOUND_MESSAGE.getBytes().length));
+        setResponseBody(NOT_FOUND_MESSAGE.getBytes());
+    }
+
+    public void setMovedTemporarily(String location) {
+        setStatusLine(HttpVersion.HTTP_1_1, StatusCode.MOVED_TEMPORARILY);
+        setHeader(HttpHeaders.LOCATION, location);
+    }
+
+    private void setStatusLine(String httpVersion, StatusCode statusCode) {
         this.statusLine = new StatusLine(httpVersion, statusCode);
     }
 
-    public void setHeaders(HttpHeaders headers) {
-        this.headers = headers;
+    private void setHeader(String key, String value) {
+        this.headers.put(key, value);
     }
 
-    public void setResponseBody(byte[] contents) {
+    private void setResponseBody(byte[] contents) {
         this.responseBody = new ResponseBody(contents);
     }
 

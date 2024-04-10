@@ -3,6 +3,8 @@ package webserver.common;
 import java.util.Objects;
 
 public final class HttpVersion {
+    public static final String HTTP_1_1 = "HTTP/1.1";
+    
     private static final String SCHEME_DELIMITER = "/";
     private static final String VERSION_DELIMITER = "\\.";
     private static final int SCHEME_INDEX = 0;

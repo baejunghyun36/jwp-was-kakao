@@ -27,7 +27,7 @@ public class RequestHandler implements Runnable {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             ResponseRenderer renderer = new ResponseRenderer(out);
             HttpRequest httpRequest = new HttpRequest(in);
-            HttpResponse httpResponse = new HttpResponse();
+            HttpResponse httpResponse = new HttpResponse(httpRequest);
             RequestMapper.doService(httpRequest, httpResponse);
             renderer.render(httpResponse);
         } catch (IOException | URISyntaxException e) {

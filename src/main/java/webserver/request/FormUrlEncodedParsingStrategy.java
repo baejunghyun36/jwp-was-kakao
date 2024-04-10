@@ -2,30 +2,30 @@ package webserver.request;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class FormUrlEncodedParsingStrategy implements RequestBodyParsingStrategy {
     private static final String ENTRY_DELIMITER = "&";
     private static final String FIELD_DELIMITER = "=";
+    private static final int KEY_INDEX = 0;
+    private static final int VALUE_INDEX = 1;
 
     private final String contents;
     private final Map<String, Object> requestBody;
 
     public FormUrlEncodedParsingStrategy(String contents) {
-        this.contents = contents;
+        this.contents = URLDecoder.decode(contents, StandardCharsets.UTF_8);
         this.requestBody = new HashMap<>();
     }
 
     @Override
     public void perform() {
         String[] split = this.contents.split(ENTRY_DELIMITER);
-        for (String s : split) {
-            String[] regex = s.split(FIELD_DELIMITER);
-            String key = URLDecoder.decode(regex[0], StandardCharsets.UTF_8);
-            String value = URLDecoder.decode(regex[1], StandardCharsets.UTF_8);
-            requestBody.put(key, value);
-        }
+        Arrays.stream(split)
+                .map(s -> s.split(FIELD_DELIMITER))
+                .forEach(regex -> requestBody.put(regex[KEY_INDEX], regex[VALUE_INDEX]));
     }
 
     @Override

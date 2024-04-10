@@ -1,6 +1,8 @@
 package webserver.request;
 
 import webserver.common.HttpVersion;
+import webserver.common.Uri;
+import webserver.enums.Method;
 
 import java.io.BufferedReader;
 import java.io.IOException;

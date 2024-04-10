@@ -2,6 +2,7 @@ package webserver.request;
 
 import utils.IOUtils;
 import webserver.common.HttpHeaders;
+import webserver.enums.Method;
 
 import java.io.BufferedReader;
 import java.io.IOException;

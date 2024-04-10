@@ -1,9 +1,8 @@
 package webserver.controller;
 
-import org.springframework.http.MediaType;
 import utils.FileIoUtils;
+import webserver.enums.Method;
 import webserver.request.HttpRequest;
-import webserver.request.Method;
 import webserver.response.HttpResponse;
 
 import java.io.IOException;
@@ -12,9 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static webserver.common.MediaType.TEXT_CSS;
+import static webserver.common.MediaType.TEXT_HTML;
+
 public final class RequestMapper {
     private static final Map<Entry, Controller> map = new HashMap<>();
-    private static final String CSS_CONTENT_TYPE = "text/css";
     private static final String TEMPLATE_PATH = "./templates";
     private static final String STATIC_PATH = "./static";
 
@@ -66,13 +67,13 @@ public final class RequestMapper {
     private static String getContentType(HttpRequest httpRequest) {
         String accept = httpRequest.accept();
         String contentType = httpRequest.contentType();
-        if (accept.contains(CSS_CONTENT_TYPE)) {
-            return CSS_CONTENT_TYPE;
+        if (accept.contains(TEXT_CSS.value())) {
+            return TEXT_CSS.value();
         }
         if (!contentType.isBlank()) {
             return contentType;
         }
-        return MediaType.TEXT_HTML_VALUE;
+        return TEXT_HTML.value();
     }
 
     private static final class Entry {

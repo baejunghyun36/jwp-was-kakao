@@ -3,7 +3,7 @@ package webserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.controller.RequestMapper;
-import webserver.request.Method;
+import webserver.enums.Method;
 
 import java.net.ServerSocket;
 import java.net.Socket;

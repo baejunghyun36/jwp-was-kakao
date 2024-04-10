@@ -1,6 +1,6 @@
 package webserver.controller;
 
-import webserver.request.Method;
+import webserver.enums.Method;
 
 import java.util.Objects;
 

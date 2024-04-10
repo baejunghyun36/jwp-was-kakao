@@ -8,6 +8,9 @@ import java.util.Objects;
 import java.util.Optional;
 
 public final class HttpHeaders {
+    public static final String ACCEPT = "Accept";
+    public static final String CONTENT_TYPE = "Content-Type";
+    public static final String CONTENT_LENGTH = "Content-Length";
     private static final String HEADER_DELIMITER = ": ";
 
     private Map<String, String> headers;
@@ -21,15 +24,15 @@ public final class HttpHeaders {
     }
 
     public Optional<String> accept() {
-        return get(org.springframework.http.HttpHeaders.ACCEPT);
+        return get(ACCEPT);
     }
 
     public Optional<String> contentType() {
-        return get(org.springframework.http.HttpHeaders.CONTENT_TYPE);
+        return get(CONTENT_TYPE);
     }
 
     public Optional<String> contentLength() {
-        return get(org.springframework.http.HttpHeaders.CONTENT_LENGTH);
+        return get(CONTENT_LENGTH);
     }
 
     public Optional<String> get(String key) {

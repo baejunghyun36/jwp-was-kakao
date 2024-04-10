@@ -1,6 +1,5 @@
 package webserver.request;
 
-import org.springframework.http.MediaType;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -8,9 +7,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static webserver.common.MediaType.APPLICATION_FORM_URLENCODED;
+
 public final class RequestBodyParsingStrategyFactory {
     public static RequestBodyParsingStrategy create(String contentType, String contents) {
-        if (MediaType.APPLICATION_FORM_URLENCODED_VALUE.equals(contentType)) {
+        if (APPLICATION_FORM_URLENCODED.value().equals(contentType)) {
             return new FormUrlEncodedParsingStrategy(contents);
         }
         throw new IllegalArgumentException("존재하지 않는 미디어 타입입니다.");

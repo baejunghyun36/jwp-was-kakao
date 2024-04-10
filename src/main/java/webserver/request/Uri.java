@@ -1,5 +1,7 @@
 package webserver.request;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,8 +10,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class Uri {
-    private static final Pattern PATH_PATTERN = Pattern.compile("^/([a-zA-Z0-9\\-._~%!$&'()*+,;=:@/]*)$");
-    private static final Pattern PARAM_PATTERN = Pattern.compile("^([\\w]+=[\\w]+)(&[\\w]+=[\\w]+)*$");
+    private static final Pattern PATH_PATTERN = Pattern.compile("^/([\\w\\d\\-._~%!$&'()*+,;=:@/]*)$");
+    private static final Pattern PARAM_PATTERN = Pattern.compile("^([\\w\\d가-힣\\-._%$'()=@/]+=[\\w\\d가-힣\\-._%$'()=@/]+)$");
     private static final String DEFAULT_PATH = "/";
     private static final String QUERY_DELIMITER = "\\?";
     private static final String ENTRY_DELIMITER = "&";
@@ -48,7 +50,7 @@ public final class Uri {
         private static final int PARAM_INDEX = 1;
         private static final int KEY_INDEX = 0;
         private static final int VALUE_INDEX = 1;
-        
+
         private final String uri;
 
         Parser(String uri) {
@@ -85,12 +87,15 @@ public final class Uri {
         }
 
         private void extractParams(String[] chunks) {
-            Matcher matcher = Uri.PARAM_PATTERN.matcher(chunks[PARAM_INDEX]);
-            if (!matcher.matches()) {
-                throw new IllegalArgumentException("쿼리 파라미터 구성이 올바르지 않습니다.");
-            }
-            String[] params = chunks[PARAM_INDEX].split(ENTRY_DELIMITER);
-            Arrays.stream(params).forEach(this::putParam);
+            String rawParams = URLDecoder.decode(chunks[PARAM_INDEX], StandardCharsets.UTF_8);
+            String[] params = rawParams.split(ENTRY_DELIMITER);
+            Arrays.stream(params).forEach(e -> {
+                Matcher matcher = Uri.PARAM_PATTERN.matcher(e);
+                if (!matcher.matches()) {
+                    throw new IllegalArgumentException("쿼리 파라미터 구성이 올바르지 않습니다.");
+                }
+                putParam(e);
+            });
         }
 
         private void putParam(String param) {

@@ -54,7 +54,7 @@ public final class RequestLine {
 
         void validateSchemeChunk(String[] chunks) {
             if (chunks.length != 3) {
-                throw new IllegalArgumentException("request line 정보가 정확하지 않습니다.");
+                throw new IllegalArgumentException("Request Line 정보가 정확하지 않습니다.");
             }
         }
     }

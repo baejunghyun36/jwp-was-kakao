@@ -1,6 +1,5 @@
 package webserver.controller;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import utils.FileIoUtils;
 import webserver.request.HttpRequest;
@@ -65,10 +64,10 @@ public final class RequestMapper {
     }
 
     private static String getContentType(HttpRequest httpRequest) {
-        if (httpRequest.headers().get(HttpHeaders.ACCEPT).isEmpty()) {
-            return httpRequest.headers().get(HttpHeaders.CONTENT_TYPE).orElse(MediaType.TEXT_HTML_VALUE);
+        if (httpRequest.headers().accept().isEmpty()) {
+            return httpRequest.headers().contentType().orElse(MediaType.TEXT_HTML_VALUE);
         }
-        String accept = httpRequest.headers().get(HttpHeaders.ACCEPT).orElse(MediaType.TEXT_HTML_VALUE);
+        String accept = httpRequest.headers().accept().orElse(MediaType.TEXT_HTML_VALUE);
         if (accept.contains(CSS_CONTENT_TYPE)) {
             return CSS_CONTENT_TYPE;
         }

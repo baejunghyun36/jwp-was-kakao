@@ -20,7 +20,15 @@ public final class HttpHeaders {
         }
     }
 
-    public Optional<String> get(String key) {
+    public Optional<String> accept() {
+        return get(org.springframework.http.HttpHeaders.ACCEPT);
+    }
+
+    public Optional<String> contentType() {
+        return get(org.springframework.http.HttpHeaders.CONTENT_TYPE);
+    }
+
+    private Optional<String> get(String key) {
         return Optional.ofNullable(headers.get(key));
     }
 

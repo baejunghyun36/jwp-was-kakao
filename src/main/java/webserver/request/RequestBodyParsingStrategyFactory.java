@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static webserver.common.MediaType.APPLICATION_FORM_URLENCODED;
+import static webserver.enums.MediaType.APPLICATION_FORM_URLENCODED;
 
 public final class RequestBodyParsingStrategyFactory {
     public static RequestBodyParsingStrategy create(String contentType, String contents) {

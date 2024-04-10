@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static webserver.common.MediaType.TEXT_CSS;
-import static webserver.common.MediaType.TEXT_HTML;
+import static webserver.enums.MediaType.TEXT_CSS;
+import static webserver.enums.MediaType.TEXT_HTML;
 
 public final class RequestMapper {
     private static final Map<Entry, Controller> map = new HashMap<>();

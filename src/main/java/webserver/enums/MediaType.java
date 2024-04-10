@@ -1,4 +1,4 @@
-package webserver.common;
+package webserver.enums;
 
 public enum MediaType {
     APPLICATION_FORM_URLENCODED("application/x-www-form-urlencoded"),

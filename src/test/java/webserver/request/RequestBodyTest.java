@@ -4,7 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static webserver.common.MediaType.APPLICATION_FORM_URLENCODED;
+import static webserver.enums.MediaType.APPLICATION_FORM_URLENCODED;
 
 @DisplayName("RequestBody 관련 테스트")
 class RequestBodyTest {

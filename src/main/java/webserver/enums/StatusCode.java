@@ -5,6 +5,7 @@ public enum StatusCode {
     CREATED(201, StatusCode.Series.SUCCESSFUL, "Created"),
     MOVED_TEMPORARILY(302, StatusCode.Series.REDIRECTION, "Moved Temporarily"),
     NOT_FOUND(404, StatusCode.Series.CLIENT_ERROR, "Not Found"),
+    CONFLICT(409, StatusCode.Series.CLIENT_ERROR, "Conflict"),
     ;
 
     private final int value;

@@ -7,7 +7,7 @@ import webserver.enums.StatusCode;
 import webserver.request.HttpRequest;
 
 public final class HttpResponse {
-    public static final String DEFAULT_ENTRY = "index.html";
+    public static final String DEFAULT_ENTRY = "/index.html";
     private static final String EMPTY = "";
     private static final String NOT_FOUND_MESSAGE = "NOT FOUND";
 
@@ -19,6 +19,7 @@ public final class HttpResponse {
     public HttpResponse(HttpRequest httpRequest) {
         this.httpRequest = httpRequest;
         this.headers = new HttpHeaders(EMPTY);
+        this.responseBody = new ResponseBody(EMPTY.getBytes());
     }
 
     public void setStatusOK(byte[] contents, String contentType) {
@@ -38,6 +39,13 @@ public final class HttpResponse {
     public void setMovedTemporarily(String location) {
         setStatusLine(HttpVersion.HTTP_1_1, StatusCode.MOVED_TEMPORARILY);
         setHeader(HttpHeaders.LOCATION, location);
+    }
+
+    public void setConflict(byte[] contents, String contentType) {
+        setStatusLine(HttpVersion.HTTP_1_1, StatusCode.CONFLICT);
+        setHeader(HttpHeaders.CONTENT_TYPE, contentType);
+        setHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(contents.length));
+        setResponseBody(contents);
     }
 
     private void setStatusLine(String httpVersion, StatusCode statusCode) {

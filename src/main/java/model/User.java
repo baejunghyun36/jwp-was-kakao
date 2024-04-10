@@ -1,5 +1,7 @@
 package model;
 
+import webserver.dto.UserDto;
+
 public class User {
     private String userId;
     private String password;
@@ -11,6 +13,10 @@ public class User {
         this.password = password;
         this.name = name;
         this.email = email;
+    }
+
+    public static User from(UserDto userDto) {
+        return new User(userDto.userId(), userDto.password(), userDto.name(), userDto.email());
     }
 
     public String getUserId() {

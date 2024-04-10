@@ -18,7 +18,7 @@ public final class Uri {
     private static final String FIELD_DELIMITER = "=";
 
     private String path;
-    private Map<String, String> params;
+    private Map<String, Object> params;
 
     public Uri(String uri) {
         (new Parser(uri)).parse();
@@ -28,7 +28,7 @@ public final class Uri {
         return this.path;
     }
 
-    public Map<String, String> params() {
+    public Map<String, Object> params() {
         return this.params;
     }
 

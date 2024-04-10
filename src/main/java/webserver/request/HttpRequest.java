@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 public final class HttpRequest {
     private static final String ZERO_STRING = "";
@@ -71,6 +72,14 @@ public final class HttpRequest {
 
     public String path() {
         return this.requestLine.uri().path();
+    }
+
+    public Map<String, Object> params() {
+        return this.requestLine().uri().params();
+    }
+
+    public Map<String, Object> contents() {
+        return this.requestBody.contents();
     }
 
     public String httpVersion() {

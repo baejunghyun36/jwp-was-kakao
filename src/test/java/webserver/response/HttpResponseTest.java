@@ -14,10 +14,10 @@ class HttpResponseTest {
         StatusLine statusLine = new StatusLine("HTTP/1.1", StatusCode.OK);
         String headers = "Host: localhost:8080\r\nConnection: keep-alive\r\nAccept: */*\r\n";
         HttpHeaders httpHeaders = new HttpHeaders(headers);
-        HttpResponse response = new HttpResponse(statusLine, httpHeaders, "");
+        HttpResponse response = new HttpResponse(statusLine, httpHeaders, new ResponseBody("".getBytes()));
         assertThat(response).isNotNull();
         assertThat(response.statusLine()).isEqualTo(new StatusLine("HTTP/1.1", StatusCode.OK));
         assertThat(response.headers()).isEqualTo(httpHeaders);
-        assertThat(response.responseBody()).isEqualTo("");
+        assertThat(response.responseBody()).isEqualTo(new ResponseBody("".getBytes()));
     }
 }

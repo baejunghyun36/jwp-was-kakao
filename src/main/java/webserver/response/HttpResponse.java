@@ -1,16 +1,23 @@
 package webserver.response;
 
 import webserver.common.HttpHeaders;
+import webserver.enums.StatusCode;
 
 public final class HttpResponse {
-    private final StatusLine statusLine;
-    private final HttpHeaders headers;
-    private final ResponseBody responseBody;
+    private StatusLine statusLine;
+    private HttpHeaders headers;
+    private ResponseBody responseBody;
 
-    public HttpResponse(StatusLine statusLine, HttpHeaders headers, ResponseBody responseBody) {
-        this.statusLine = statusLine;
+    public void setStatusLine(String httpVersion, StatusCode statusCode) {
+        this.statusLine = new StatusLine(httpVersion, statusCode);
+    }
+
+    public void setHeaders(HttpHeaders headers) {
         this.headers = headers;
-        this.responseBody = responseBody;
+    }
+
+    public void setResponseBody(byte[] contents) {
+        this.responseBody = new ResponseBody(contents);
     }
 
     public StatusLine statusLine() {
@@ -23,5 +30,9 @@ public final class HttpResponse {
 
     public ResponseBody responseBody() {
         return this.responseBody;
+    }
+
+    public byte[] contents() {
+        return responseBody().contents();
     }
 }

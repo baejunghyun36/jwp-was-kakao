@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import webserver.controller.RequestMapper;
 import webserver.request.HttpRequest;
 import webserver.response.HttpResponse;
-import webserver.response.Renderer;
+import webserver.response.ResponseRenderer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,10 +25,11 @@ public class RequestHandler implements Runnable {
     public void run() {
         logger.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(), connection.getPort());
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
+            ResponseRenderer renderer = new ResponseRenderer(out);
             HttpRequest httpRequest = new HttpRequest(in);
-            Renderer renderer = new Renderer(out);
-            HttpResponse httpResponse = new HttpResponse(null, null, null);
+            HttpResponse httpResponse = new HttpResponse();
             RequestMapper.doService(httpRequest, httpResponse);
+            renderer.render(httpResponse);
         } catch (IOException | URISyntaxException e) {
             logger.error(e.getMessage());
         }

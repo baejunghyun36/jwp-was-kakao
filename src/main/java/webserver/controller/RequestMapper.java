@@ -40,9 +40,9 @@ public final class RequestMapper {
         try {
             byte[] body = getBody(req);
             String contentType = getContentType(req);
-//            res.response200(body, contentType);
+//            200 SetResponse
         } catch (Exception ex) {
-//            res.response404();
+//            404 SetResponse
         }
     }
 

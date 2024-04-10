@@ -40,4 +40,9 @@ public final class StatusLine {
     public int hashCode() {
         return Objects.hash(httpVersion, statusCode, reasonPhrase);
     }
+
+    @Override
+    public String toString() {
+        return httpVersion() + " " + statusCode() + " " + reasonPhrase();
+    }
 }

@@ -45,6 +45,10 @@ public final class HttpHeaders {
         return Optional.ofNullable(headers.get(key));
     }
 
+    public Map<String, String> all() {
+        return this.headers;
+    }
+
     private final class Parser {
         private static final int KEY_INDEX = 0;
         private static final int VALUE_INDEX = 1;

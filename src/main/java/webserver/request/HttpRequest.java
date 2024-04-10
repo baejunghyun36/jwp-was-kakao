@@ -66,4 +66,8 @@ public final class HttpRequest {
     public String path() {
         return this.requestLine.uri().path();
     }
+
+    public String httpVersion() {
+        return this.requestLine.httpVersion().raw();
+    }
 }

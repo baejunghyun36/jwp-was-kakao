@@ -88,11 +88,14 @@ public final class Uri {
 
         private void extractParams(String[] chunks) {
             String rawParams = URLDecoder.decode(chunks[PARAM_INDEX], StandardCharsets.UTF_8);
+            if (rawParams.endsWith(ENTRY_DELIMITER)) {
+                throw new IllegalArgumentException("쿼리 파라미터의 구성이 완전하지 않습니다.");
+            }
             String[] params = rawParams.split(ENTRY_DELIMITER);
             Arrays.stream(params).forEach(e -> {
                 Matcher matcher = Uri.PARAM_PATTERN.matcher(e);
                 if (!matcher.matches()) {
-                    throw new IllegalArgumentException("쿼리 파라미터 구성이 올바르지 않습니다.");
+                    throw new IllegalArgumentException("쿼리 파라미터 키, 값 구분이 올바르지 않습니다.");
                 }
                 putParam(e);
             });

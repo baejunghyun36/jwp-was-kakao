@@ -24,7 +24,7 @@ public final class HttpRequest {
             requestBody = new RequestBody();
             return;
         }
-        this.requestBody = new RequestBody(ParsingStrategyFactory.create(
+        this.requestBody = new RequestBody(RequestBodyParsingStrategyFactory.create(
                 contentType(),
                 IOUtils.readData(br, contentLength())));
     }

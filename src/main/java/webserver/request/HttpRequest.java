@@ -17,6 +17,7 @@ public final class HttpRequest {
     private final RequestLine requestLine;
     private final HttpHeaders httpHeaders;
     private final RequestBody requestBody;
+    private Object attribute;
 
     public HttpRequest() {
         this.requestLine = null;
@@ -40,6 +41,14 @@ public final class HttpRequest {
     private boolean isRequestBodyAcceptable() {
         Method method = requestLine.method();
         return method.isRequestBodyAcceptable();
+    }
+
+    public Object attribute() {
+        return attribute;
+    }
+
+    public void setAttribute(Object attribute) {
+        this.attribute = attribute;
     }
 
     public String accept() {

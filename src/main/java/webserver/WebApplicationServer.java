@@ -28,8 +28,8 @@ public class WebApplicationServer {
     }
 
     private static void registerController() {
-        RequestMapper.register(Method.GET.name(), "/user/create", new GetUserJoinController());
-        RequestMapper.register(Method.POST.name(), "/user/create", new PostUserJoinController());
+        RequestMapper.register(Method.GET, "/user/create", new GetUserJoinController());
+        RequestMapper.register(Method.POST, "/user/create", new PostUserJoinController());
     }
 
     private static void acceptClient(ServerSocket listenSocket) throws Exception {

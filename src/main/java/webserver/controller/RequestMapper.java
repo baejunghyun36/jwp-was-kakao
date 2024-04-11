@@ -15,11 +15,11 @@ public final class RequestMapper {
     private static final Map<Entry, Controller> map = new HashMap<>();
 
     static {
-        register(Method.GET.name(), DEFAULT_FILE_SERVE_PATH, new StaticServingController());
+        register(Method.GET, DEFAULT_FILE_SERVE_PATH, new StaticServingController());
     }
 
-    public static void register(String method, String path, Controller controller) {
-        Entry entry = new Entry(Method.of(method), path);
+    public static void register(Method method, String path, Controller controller) {
+        Entry entry = new Entry(method, path);
         if (map.containsKey(entry)) {
             throw new UnsupportedOperationException("이미 존재하는 URI의 Controller입니다.");
         }

@@ -51,7 +51,7 @@ public final class RequestLine {
             validateSchemeChunk(chunks);
             RequestLine.this.method = Method.of(chunks[METHOD_INDEX]);
             RequestLine.this.uri = new Uri(chunks[URI_INDEX]);
-            RequestLine.this.httpVersion = new HttpVersion(chunks[VERSION_INDEX]);
+            RequestLine.this.httpVersion = HttpVersion.of(chunks[VERSION_INDEX]);
         }
 
         void validateSchemeChunk(String[] chunks) {

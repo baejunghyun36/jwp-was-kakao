@@ -30,6 +30,10 @@ public final class HttpHeaders {
         this(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(headers.getBytes()))));
     }
 
+    public HttpHeaders(Map<String, String> headers) {
+        this.headers = headers;
+    }
+
     public Optional<String> accept() {
         return get(ACCEPT);
     }

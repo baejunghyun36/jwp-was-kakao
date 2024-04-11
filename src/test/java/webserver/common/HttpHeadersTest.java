@@ -6,11 +6,24 @@ import org.junit.jupiter.api.Test;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("HttpHeaders 관련 테스트")
 class HttpHeadersTest {
+    @Test
+    void HttpHeaders를_Map을_이용하여_생성() {
+        Map<String, String> map = new HashMap<>() {{
+            put("Host", "localhost:8080");
+            put("Connection", "keep-alive");
+            put("Accept", "*/*");
+        }};
+        HttpHeaders headers = new HttpHeaders(map);
+        assertThat(headers.all().size()).isEqualTo(3);
+    }
+
     @Test
     void HttpHeaders_객체의_필수_인자를_받아서_생성한다() {
         String info = "Host: localhost:8080\r\nConnection: keep-alive\r\nAccept: */*\r\n";

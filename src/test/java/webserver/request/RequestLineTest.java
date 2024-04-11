@@ -29,7 +29,7 @@ class RequestLineTest {
         RequestLine requestLine = new RequestLine(br);
         assertThat(requestLine.method()).isEqualTo(Method.of(method));
         assertThat(requestLine.uri()).isEqualTo(new Uri(uri));
-        assertThat(requestLine.httpVersion()).isEqualTo(new HttpVersion(httpVersion));
+        assertThat(requestLine.httpVersion()).isEqualTo(HttpVersion.of(httpVersion));
     }
 
     @Test
@@ -50,7 +50,7 @@ class RequestLineTest {
     @MethodSource("generateRequestLines")
     void RequestLine_객체에_잘못된_정보가_주입되면_RuntimeException이_발생한다(String info) {
         BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(info.getBytes())));
-        assertThatThrownBy(() -> new RequestLine(br)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new RequestLine(br)).isInstanceOf(RuntimeException.class);
     }
 
     private static Stream<Arguments> generateRequestLines() {

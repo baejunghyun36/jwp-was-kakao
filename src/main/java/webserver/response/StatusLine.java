@@ -11,7 +11,7 @@ public final class StatusLine {
     private final String reasonPhrase;
 
     public StatusLine(String httpVersion, StatusCode statusCode) {
-        this.httpVersion = new HttpVersion(httpVersion);
+        this.httpVersion = HttpVersion.of(httpVersion);
         this.statusCode = statusCode.value();
         this.reasonPhrase = statusCode.reasonPhrase();
     }

@@ -23,26 +23,26 @@ public final class HttpResponse {
     }
 
     public void setStatusOK(byte[] contents, String contentType) {
-        setStatusLine(HttpVersion.HTTP_1_1, StatusCode.OK);
+        setStatusLine(HttpVersion.HTTP_1_1_RAW, StatusCode.OK);
         setHeader(HttpHeaders.CONTENT_TYPE, contentType);
         setHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(contents.length));
         setResponseBody(contents);
     }
 
     public void setNotFound() {
-        setStatusLine(HttpVersion.HTTP_1_1, StatusCode.NOT_FOUND);
+        setStatusLine(HttpVersion.HTTP_1_1_RAW, StatusCode.NOT_FOUND);
         setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN.value());
         setHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(NOT_FOUND_MESSAGE.getBytes().length));
         setResponseBody(NOT_FOUND_MESSAGE.getBytes());
     }
 
     public void setMovedTemporarily(String location) {
-        setStatusLine(HttpVersion.HTTP_1_1, StatusCode.MOVED_TEMPORARILY);
+        setStatusLine(HttpVersion.HTTP_1_1_RAW, StatusCode.MOVED_TEMPORARILY);
         setHeader(HttpHeaders.LOCATION, location);
     }
 
     public void setConflict(byte[] contents, String contentType) {
-        setStatusLine(HttpVersion.HTTP_1_1, StatusCode.CONFLICT);
+        setStatusLine(HttpVersion.HTTP_1_1_RAW, StatusCode.CONFLICT);
         setHeader(HttpHeaders.CONTENT_TYPE, contentType);
         setHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(contents.length));
         setResponseBody(contents);

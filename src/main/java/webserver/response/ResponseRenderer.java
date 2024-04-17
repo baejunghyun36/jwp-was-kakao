@@ -2,6 +2,8 @@ package webserver.response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import webserver.common.HttpCookie;
+import webserver.request.HttpRequest;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -10,16 +12,16 @@ import java.util.Map;
 
 public final class ResponseRenderer {
     private static final Logger logger = LoggerFactory.getLogger(ResponseRenderer.class);
-
     private final DataOutputStream dos;
 
     public ResponseRenderer(OutputStream out) {
         this.dos = new DataOutputStream(out);
     }
 
-    public void render(HttpResponse httpResponse) {
+    public void render(HttpResponse httpResponse, HttpRequest httpRequest) {
         try {
             dos.writeBytes(httpResponse.statusLine() + "\r\n");
+            writeCookie(httpResponse.cookie());
             for (Map.Entry<String, String> entry : httpResponse.headers().all().entrySet()) {
                 dos.writeBytes(entry.getKey() + ": " + entry.getValue() + "\r\n");
             }
@@ -28,6 +30,13 @@ public final class ResponseRenderer {
             dos.flush();
         } catch (IOException e) {
             logger.error(e.getMessage());
+        }
+    }
+
+    private void writeCookie(HttpCookie cookie) throws IOException {
+        for (Map.Entry<String, String> entry : cookie.all().entrySet()) {
+            dos.writeBytes("Set-Cookie: ");
+            dos.writeBytes(entry.getKey() + "=" + entry.getValue() + "\r\n");
         }
     }
 }

@@ -16,6 +16,10 @@ public final class RequestBody {
         this.contents = strategy.requestBody();
     }
 
+    public Object get(String key) {
+        return contents.get(key);
+    }
+
     public Map<String, Object> contents() {
         return this.contents;
     }

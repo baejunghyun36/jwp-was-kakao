@@ -17,38 +17,27 @@ public final class HttpRequest {
     private final RequestLine requestLine;
     private final HttpHeaders httpHeaders;
     private final RequestBody requestBody;
-    private Object attribute;
 
-    public HttpRequest() {
-        this.requestLine = null;
-        this.httpHeaders = null;
-        this.requestBody = null;
+    private HttpRequest(RequestLine requestLine, HttpHeaders httpHeaders, RequestBody requestBody) {
+        this.requestLine = requestLine;
+        this.httpHeaders = httpHeaders;
+        this.requestBody = requestBody;
     }
 
-    public HttpRequest(InputStream in) throws IOException {
+    public static HttpRequest of(InputStream in) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(in));
-        this.requestLine = new RequestLine(br);
-        this.httpHeaders = new HttpHeaders(br);
-        if (!isRequestBodyAcceptable()) {
-            this.requestBody = new RequestBody();
-            return;
+        RequestLine requestLine = new RequestLine(br);
+        HttpHeaders httpHeaders = new HttpHeaders(br);
+        RequestBody requestBody;
+
+        if (!requestLine.method().isRequestBodyAcceptable()) {
+            requestBody = new RequestBody();
+        } else {
+            String bodyData = IOUtils.readData(br, Integer.parseInt(httpHeaders.contentLength().orElse(ZERO_INTEGER)));
+            requestBody = new RequestBody(RequestBodyParsingStrategyFactory.create(httpHeaders.contentType().orElse(ZERO_STRING), bodyData));
         }
-        this.requestBody = new RequestBody(RequestBodyParsingStrategyFactory.create(
-                contentType(),
-                IOUtils.readData(br, contentLength())));
-    }
 
-    private boolean isRequestBodyAcceptable() {
-        Method method = requestLine.method();
-        return method.isRequestBodyAcceptable();
-    }
-
-    public Object attribute() {
-        return attribute;
-    }
-
-    public void setAttribute(Object attribute) {
-        this.attribute = attribute;
+        return new HttpRequest(requestLine, httpHeaders, requestBody);
     }
 
     public String accept() {
@@ -71,7 +60,11 @@ public final class HttpRequest {
         return this.httpHeaders;
     }
 
-    public RequestBody requestBody() {
+    public String cookie() {
+        return this.headers().cookie().orElse("");
+    }
+
+    public RequestBody body() {
         return this.requestBody;
     }
 
@@ -94,4 +87,5 @@ public final class HttpRequest {
     public String httpVersion() {
         return this.requestLine.httpVersion().raw();
     }
+
 }

@@ -21,7 +21,7 @@ public class StaticServingController implements Controller {
     private static final String STATIC_PATH = "./static";
 
     @Override
-    public void doService(HttpRequest req, HttpResponse response) {
+    public void doService(HttpRequest req, HttpResponse response) throws IOException {
         try {
             byte[] body = getBody(req);
             String contentType = getContentType(req);
@@ -45,7 +45,7 @@ public class StaticServingController implements Controller {
         ClassPathTemplateLoader loader = new ClassPathTemplateLoader(TEMPLATE_PATH, HANDLEBARS_EXT_NAME);
         Handlebars handlebars = new Handlebars(loader);
         Template compile = handlebars.compile(httpRequest.path().substring(0, httpRequest.path().lastIndexOf(EXT_DELIMITER)));
-        return compile.apply(httpRequest.attribute()).getBytes();
+        return compile.apply("").getBytes();
     }
 
     private static byte[] getStaticBody(HttpRequest httpRequest) throws IOException, URISyntaxException {

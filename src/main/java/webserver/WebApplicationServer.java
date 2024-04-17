@@ -2,8 +2,9 @@ package webserver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import webserver.controller.GetUserJoinController;
+import webserver.controller.GetUserListController;
 import webserver.controller.PostUserJoinController;
+import webserver.controller.PostUserLoginController;
 import webserver.controller.RequestMapper;
 import webserver.enums.Method;
 
@@ -28,8 +29,10 @@ public class WebApplicationServer {
     }
 
     private static void registerController() {
-        RequestMapper.register(Method.GET, "/user/create", new GetUserJoinController());
         RequestMapper.register(Method.POST, "/user/create", new PostUserJoinController());
+        RequestMapper.register(Method.POST, "/user/login", new PostUserLoginController());
+        RequestMapper.register(Method.GET, "/user/list", new GetUserListController());
+        RequestMapper.register(Method.GET, "/user/list.html", new GetUserListController());
     }
 
     private static void acceptClient(ServerSocket listenSocket) throws Exception {

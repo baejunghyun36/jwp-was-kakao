@@ -1,25 +1,27 @@
 package webserver.response;
 
+import webserver.common.HttpCookie;
 import webserver.common.HttpHeaders;
 import webserver.common.HttpVersion;
 import webserver.enums.MediaType;
 import webserver.enums.StatusCode;
-import webserver.request.HttpRequest;
 
 public final class HttpResponse {
     public static final String DEFAULT_ENTRY = "/index.html";
+    public static final String LOGIN_PAGE = "/user/login.html";
+    public static final String LOGIN_FAIL = "/user/login_failed.html";
+    public static final String USER_LIST_PAGE_PATH = "/user/list.html";
     private static final String EMPTY = "";
     private static final String NOT_FOUND_MESSAGE = "NOT FOUND";
-
-    private final HttpRequest httpRequest;
     private StatusLine statusLine;
     private HttpHeaders headers;
     private ResponseBody responseBody;
+    private HttpCookie cookie;
 
-    public HttpResponse(HttpRequest httpRequest) {
-        this.httpRequest = httpRequest;
+    public HttpResponse() {
         this.headers = new HttpHeaders(EMPTY);
         this.responseBody = new ResponseBody(EMPTY.getBytes());
+        this.cookie = new HttpCookie();
     }
 
     public void setStatusOK(byte[] contents, String contentType) {
@@ -74,5 +76,13 @@ public final class HttpResponse {
 
     public byte[] contents() {
         return responseBody().contents();
+    }
+
+    public void setCookie(HttpCookie cookie) {
+        this.cookie = cookie;
+    }
+
+    public HttpCookie cookie() {
+        return this.cookie;
     }
 }

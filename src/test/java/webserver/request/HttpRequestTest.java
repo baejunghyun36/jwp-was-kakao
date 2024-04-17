@@ -15,10 +15,10 @@ class HttpRequestTest {
         String request = "GET /index.html HTTP/1.1\r\nHost: localhost:8080\r\nConnection: keep-alive\r\nAccept: */*\r\n\r\nSampleContents";
         InputStream in1 = new ByteArrayInputStream(request.getBytes());
         InputStream in2 = new ByteArrayInputStream(request.getBytes());
-        HttpRequest httpRequest = new HttpRequest(in1);
+        HttpRequest httpRequest = HttpRequest.of(in1);
         BufferedReader br = new BufferedReader(new InputStreamReader(in2));
         assertThat(httpRequest.requestLine()).isEqualTo(new RequestLine(br));
         assertThat(httpRequest.headers()).isEqualTo(new HttpHeaders(br));
-        assertThat(httpRequest.requestBody()).isNotNull();
+        assertThat(httpRequest.body()).isNotNull();
     }
 }

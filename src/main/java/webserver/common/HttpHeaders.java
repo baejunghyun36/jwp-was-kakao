@@ -14,8 +14,8 @@ public final class HttpHeaders {
     public static final String LOCATION = "Location";
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String CONTENT_LENGTH = "Content-Length";
+    public static final String COOKIE = "Cookie";
     private static final String HEADER_DELIMITER = ": ";
-
     private Map<String, String> headers;
 
     public HttpHeaders(BufferedReader br) {
@@ -44,6 +44,10 @@ public final class HttpHeaders {
 
     public Optional<String> contentLength() {
         return get(CONTENT_LENGTH);
+    }
+
+    public Optional<String> cookie() {
+        return get(COOKIE);
     }
 
     public Optional<String> get(String key) {

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,11 +14,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 class HttpHeadersTest {
     @Test
     void HttpHeaders를_Map을_이용하여_생성() {
-        Map<String, String> map = new HashMap<>() {{
-            put("Host", "localhost:8080");
-            put("Connection", "keep-alive");
-            put("Accept", "*/*");
-        }};
+        Map<String, String> map = Map.of(
+                "Host", "localhost:8080",
+                "Connection", "keep-alive",
+                "Accept", "*/*"
+        );
         HttpHeaders headers = new HttpHeaders(map);
         assertThat(headers.all().size()).isEqualTo(3);
     }

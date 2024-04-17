@@ -1,5 +1,6 @@
 package webserver.controller;
 
+import webserver.common.HttpCookie;
 import webserver.enums.Method;
 import webserver.request.HttpRequest;
 import webserver.response.HttpResponse;
@@ -9,10 +10,13 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 public final class RequestMapper {
     private static final String DEFAULT_FILE_SERVE_PATH = "thisisdefaultroutepath";
     private static final Map<Entry, Controller> map = new HashMap<>();
+    private static final String JSESSIONID = "JSESSIONID";
+    private static final String COOKIE_PATH_POSTFIX = "; Path=/";
 
     static {
         register(Method.GET, DEFAULT_FILE_SERVE_PATH, new StaticServingController());
@@ -26,13 +30,45 @@ public final class RequestMapper {
         map.putIfAbsent(entry, controller);
     }
 
-    public static void doService(HttpRequest req, HttpResponse res) throws IOException, URISyntaxException {
-        Entry entry = new Entry(req.method(), req.path());
-        if (map.containsKey(entry)) {
-            map.get(entry).doService(req, res);
+    public static void doService(HttpRequest req, HttpResponse res, HttpCookie cookie) throws IOException, URISyntaxException {
+
+        setCookie(req, res, cookie);
+
+        if (isRedirection(req, res, cookie)) {
             return;
         }
-        map.get(new Entry(Method.GET, DEFAULT_FILE_SERVE_PATH)).doService(req, res);
+
+        Controller controller = getController(req);
+        controller.doService(req, res);
+    }
+
+    private static void setCookie(HttpRequest req, HttpResponse res, HttpCookie cookie) {
+        if (cookie.all().isEmpty()) {
+            cookie = new HttpCookie(req.cookie(), JSESSIONID, UUID.randomUUID() + COOKIE_PATH_POSTFIX);
+            res.setCookie(cookie);
+        }
+    }
+
+    private static boolean isRedirection(HttpRequest req, HttpResponse res, HttpCookie cookie) {
+        if (req.path().equals(HttpResponse.LOGIN_PAGE) && cookie.isLogined()) {
+            res.setMovedTemporarily(HttpResponse.DEFAULT_ENTRY);
+            return true;
+        }
+
+        if (req.path().equals(HttpResponse.USER_LIST_PAGE_PATH) && !cookie.isLogined()) {
+            res.setMovedTemporarily(HttpResponse.LOGIN_PAGE);
+            return true;
+        }
+
+        return false;
+    }
+
+    public static Controller getController(HttpRequest req) {
+        Entry entry = new Entry(req.method(), req.path());
+        if (map.containsKey(entry)) {
+            return map.get(entry);
+        }
+        return map.get(new Entry(Method.GET, DEFAULT_FILE_SERVE_PATH));
     }
 
     private static final class Entry {

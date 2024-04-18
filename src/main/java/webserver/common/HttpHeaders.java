@@ -17,6 +17,7 @@ public final class HttpHeaders {
     public static final String COOKIE = "Cookie";
     private static final String HEADER_DELIMITER = ": ";
     private Map<String, String> headers;
+    private HttpCookie httpCookie;
 
     public HttpHeaders(BufferedReader br) {
         try {
@@ -44,10 +45,6 @@ public final class HttpHeaders {
 
     public Optional<String> contentLength() {
         return get(CONTENT_LENGTH);
-    }
-
-    public Optional<String> cookie() {
-        return get(COOKIE);
     }
 
     public Optional<String> get(String key) {
@@ -79,6 +76,9 @@ public final class HttpHeaders {
                 putHeader(line);
                 line = br.readLine();
             }
+            if (headers.get(COOKIE) != null) {
+                httpCookie = new HttpCookie(headers.get(COOKIE));
+            }
         }
 
         private void putHeader(String line) {
@@ -86,6 +86,11 @@ public final class HttpHeaders {
             HttpHeaders.this.headers.put(keyValue[KEY_INDEX], keyValue[VALUE_INDEX]);
         }
     }
+
+    public HttpCookie cookie() {
+        return this.httpCookie;
+    }
+
 
     @Override
     public boolean equals(Object o) {

@@ -30,11 +30,11 @@ public final class RequestMapper {
         map.putIfAbsent(entry, controller);
     }
 
-    public static void doService(HttpRequest req, HttpResponse res, HttpCookie cookie) throws IOException, URISyntaxException {
+    public static void doService(HttpRequest req, HttpResponse res) throws IOException, URISyntaxException {
 
-        setCookie(req, res, cookie);
+        setCookie(req, res);
 
-        if (isRedirection(req, res, cookie)) {
+        if (isRedirection(req, res)) {
             return;
         }
 
@@ -42,20 +42,20 @@ public final class RequestMapper {
         controller.doService(req, res);
     }
 
-    private static void setCookie(HttpRequest req, HttpResponse res, HttpCookie cookie) {
-        if (cookie.all().isEmpty()) {
-            cookie = new HttpCookie(req.cookie(), JSESSIONID, UUID.randomUUID() + COOKIE_PATH_POSTFIX);
+    private static void setCookie(HttpRequest req, HttpResponse res) {
+        if (req.headers().cookie() == null) {
+            HttpCookie cookie = new HttpCookie("", JSESSIONID, UUID.randomUUID() + COOKIE_PATH_POSTFIX);
             res.setCookie(cookie);
         }
     }
 
-    private static boolean isRedirection(HttpRequest req, HttpResponse res, HttpCookie cookie) {
-        if (req.path().equals(HttpResponse.LOGIN_PAGE) && cookie.isLogined()) {
+    private static boolean isRedirection(HttpRequest req, HttpResponse res) {
+        if (req.path().equals(HttpResponse.LOGIN_PAGE) && req.headers().cookie().isLogined()) {
             res.setMovedTemporarily(HttpResponse.DEFAULT_ENTRY);
             return true;
         }
 
-        if (req.path().equals(HttpResponse.USER_LIST_PAGE_PATH) && !cookie.isLogined()) {
+        if (req.path().equals(HttpResponse.USER_LIST_PAGE_PATH) && !req.headers().cookie().isLogined()) {
             res.setMovedTemporarily(HttpResponse.LOGIN_PAGE);
             return true;
         }

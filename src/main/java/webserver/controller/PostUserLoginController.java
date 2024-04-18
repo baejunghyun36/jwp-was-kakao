@@ -23,10 +23,12 @@ public class PostUserLoginController implements Controller {
         String userId = (String) req.body().get(USERID);
         String password = (String) req.body().get(PASSWORD);
         User user = DataBase.findUserById(userId);
-        if (user != null && user.getPassword().equals(password)) {
+
+        if (user != null && user.isEqualPassword(password)) {
             addSession(user, res);
             return;
         }
+
         throw new IllegalArgumentException("아이디/패스워드가 일치하지 않습니다.");
     }
 

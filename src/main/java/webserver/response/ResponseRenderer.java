@@ -3,7 +3,6 @@ package webserver.response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.common.HttpCookie;
-import webserver.request.HttpRequest;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -18,7 +17,7 @@ public final class ResponseRenderer {
         this.dos = new DataOutputStream(out);
     }
 
-    public void render(HttpResponse httpResponse, HttpRequest httpRequest) {
+    public void render(HttpResponse httpResponse) {
         try {
             dos.writeBytes(httpResponse.statusLine() + "\r\n");
             writeCookie(httpResponse.cookie());

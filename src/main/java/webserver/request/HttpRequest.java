@@ -60,10 +60,6 @@ public final class HttpRequest {
         return this.httpHeaders;
     }
 
-    public String cookie() {
-        return this.headers().cookie().orElse("");
-    }
-
     public RequestBody body() {
         return this.requestBody;
     }

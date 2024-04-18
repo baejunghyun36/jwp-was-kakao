@@ -14,6 +14,20 @@ import java.util.*;
 
 public final class GetUserListController implements Controller {
 
+    private static final TemplateLoader loader;
+    private static final Handlebars handlebars;
+
+    private static String USER_LIST_PAGE = "user/list";
+    private static String USERS_KEY = "users";
+
+    static {
+        loader = new ClassPathTemplateLoader();
+        loader.setPrefix("/templates");
+        loader.setSuffix(".html");
+
+        handlebars = new Handlebars(loader);
+    }
+
     @Override
     public void doService(HttpRequest req, HttpResponse response) throws IOException {
         Collection<User> values = DataBase.findAll();
@@ -22,16 +36,10 @@ public final class GetUserListController implements Controller {
     }
 
     private String renderUserlistPage(List<User> users) throws IOException {
-        TemplateLoader loader = new ClassPathTemplateLoader();
-        loader.setPrefix("/templates");
-        loader.setSuffix(".html");
-
-        Handlebars handlebars = new Handlebars(loader);
-
         Map<String, Object> model = new HashMap<>();
-        model.put("users", users);
+        model.put(USERS_KEY, users);
 
-        Template template = handlebars.compile("user/list");
+        Template template = handlebars.compile(USER_LIST_PAGE);
         return template.apply(model);
     }
 }
